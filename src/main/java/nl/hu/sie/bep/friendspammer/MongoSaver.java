@@ -1,32 +1,25 @@
 package nl.hu.sie.bep.friendspammer;
 
+import java.util.Iterator;
+
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoCredential;
 import com.mongodb.MongoException;
-import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoSaver {
 	
 	public static boolean saveEmail(String to, String from, String subject, String text, Boolean html) {
-		String userName = "YOUR NAME";
-		String password = "YOUR PASS";
-		String database = "YOUR DB";
 	    Logger logger = LoggerFactory.getLogger(MongoSaver.class);
-		
-		MongoCredential credential = MongoCredential.createCredential(userName, database, password.toCharArray());
 		
 		boolean success = true;
 		
-		try (MongoClient mongoClient = new MongoClient(new ServerAddress("YOUR HOST", 27939), credential, MongoClientOptions.builder().build()) ) {
-			
-			MongoDatabase db = mongoClient.getDatabase( database );
+		try {
+			ServiceProvider provider = new ServiceProvider();
+			MongoDatabase db = provider.getDatabaseConnection();
 			
 			MongoCollection<Document> c = db.getCollection("email");
 			
@@ -47,6 +40,20 @@ public class MongoSaver {
 	}
 	
 	
+	public Iterator<Document> getAllMessages() {
+		ServiceProvider provider = new ServiceProvider();
+		
+		MongoDatabase db = provider.getDatabaseConnection();
+		
+		MongoCollection<Document> c = db.getCollection("email");
+		
+		Iterator<Document> it = c.find().iterator();
+	
+		provider.closeClient();
+		
+		return it;
+	}
+
 	public static void main(String ...args) {
 
 	}
