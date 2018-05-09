@@ -4,6 +4,8 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -23,6 +25,7 @@ public class MongoSaver {
 		String userName = "YOUR NAME";
 		String password = "YOUR PASS";
 		String database = "YOUR DB";
+	    Logger logger = LoggerFactory.getLogger(MongoSaver.class);
 		
 		MongoCredential credential = MongoCredential.createCredential(userName, database, password.toCharArray());
 		
@@ -41,7 +44,7 @@ public class MongoSaver {
 			        .append("asHtml", html);
 			c.insertOne(doc);
 		} catch (MongoException mongoException) {
-			System.out.println("XXXXXXXXXXXXXXXXXX ERROR WHILE SAVING TO MONGO XXXXXXXXXXXXXXXXXXXXXXXXXX");
+			logger.info("XXXXXXXXXXXXXXXXXX ERROR WHILE SAVING TO MONGO XXXXXXXXXXXXXXXXXXXXXXXXXX");
 			mongoException.printStackTrace();
 			success = false;
 		}
