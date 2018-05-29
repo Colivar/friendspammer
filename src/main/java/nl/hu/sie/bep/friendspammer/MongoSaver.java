@@ -54,8 +54,4 @@ public class MongoSaver {
 		return it;
 	}
 
-	public static void main(String ...args) {
-
-	}
-
 }

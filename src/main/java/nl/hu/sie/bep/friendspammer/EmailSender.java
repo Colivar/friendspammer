@@ -1,18 +1,19 @@
 package nl.hu.sie.bep.friendspammer;
 
-import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class EmailSender {
-	
+	private static Logger logger;
 	private EmailSender() {
+	    logger = LoggerFactory.getLogger(MongoSaver.class);
 	   throw new IllegalStateException("Utility class");
 	}
 	
@@ -38,7 +39,7 @@ public class EmailSender {
 			MongoSaver.saveEmail(to, "spammer@spamer.com", subject, messageBody, asHtml);
 
 		} catch (MessagingException e) {
-			throw new MessagingException();
+			logger.info(e.getMessage());
 		}
 	}
 
@@ -63,11 +64,11 @@ public class EmailSender {
 				}
 				Transport.send(message);
 	
-				System.out.println("Done");
+				logger.info("Done");
 			}
 
 		} catch (MessagingException e) {
-			throw new MessagingException();
+			logger.info(e.getMessage());
 		}
 	}
 	
