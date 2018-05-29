@@ -11,9 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EmailSender {
-	private static Logger logger;
+	private static Logger logger = LoggerFactory.getLogger(MongoSaver.class);
 	private EmailSender() {
-	    logger = LoggerFactory.getLogger(MongoSaver.class);
 	   throw new IllegalStateException("Utility class");
 	}
 	
